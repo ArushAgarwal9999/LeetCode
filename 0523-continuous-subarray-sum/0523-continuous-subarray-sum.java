@@ -8,6 +8,8 @@ class Solution {
     {
     	sum+=nums[i];
     	remainder = sum%k;
+         System.out.println("sum -->>"+sum);
+        System.out.println("remainder -->>"+remainder);
     	if(map.containsKey(remainder))
     	{
     		if(i-map.get(remainder)>=2)
