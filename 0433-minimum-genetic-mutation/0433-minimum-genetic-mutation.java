@@ -4,12 +4,12 @@ class Solution {
 		 for(String a:bank)
 			 map.put(a, false);
 		 
-		 int res = getMinMutation(start, end, map,new HashMap<String, Integer>());
+		 int res = getMinMutation(start, end, map);
 		 if(res>=100000)
 	        return -1;
 		 return res;
 	    }
-	 public int getMinMutation(String start, String end, HashMap<String, Boolean> map,HashMap<String, Integer> dp)
+	 public int getMinMutation(String start, String end, HashMap<String, Boolean> map)
 	 {
 		 if(start.equals(end))
 			 return 0;
@@ -29,7 +29,7 @@ class Solution {
 					 if(map.containsKey(newStart) && !map.get(newStart))
 					 {
 						 map.put(newStart, true);
-						 result = Math.min(getMinMutation(newStart, end, map,dp)+1, result);
+						 result = Math.min(getMinMutation(newStart, end, map)+1, result);
 						 
 						 map.put(newStart, false);
 						 
@@ -38,7 +38,7 @@ class Solution {
 				 }
 			 }
 		 }
-		dp.put(start,result);
+		
 		 
 		 
 		 
