@@ -20,18 +20,6 @@ class Solution {
         		i++;
         	}
         	
-//        	if(currentNum<k)
-//        	{
-//        		if(nums[i] == 0)
-//        			currentNum++;
-//        		
-//        		maxResult = Math.max(maxResult, i-j);
-//        		
-//        	}
-//        	else {
-//        		
-//        	}
-        	
         }
         return maxResult;
     }
