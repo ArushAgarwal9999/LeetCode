@@ -8,22 +8,22 @@ class Solution {
     		if(grid[i][j]=='1')
     		{
     			result++;
-    			dfs(i, j, grid, new Boolean[grid.length][grid[0].length]);
+    			dfs(i, j, grid);
     		}
     	}
     }
     return result;
 }
-public void  dfs(int i, int j,char[][] grid, Boolean[][] visited)
+public void  dfs(int i, int j,char[][] grid)
 {
-	if(i<0|| i>=grid.length|| j<0|| j>=grid[0].length||grid[i][j] =='0' || visited[i][j] != null)
+	if(i<0|| i>=grid.length|| j<0|| j>=grid[0].length||grid[i][j] =='0')
 		return ;
-	grid[i][j]=0;
-	visited[i][j] = true;
-	dfs(i+1, j, grid,visited);
-	dfs(i-1, j, grid,visited);
-	dfs(i, j+1, grid,visited);
-	dfs(i, j-1, grid,visited);
+	grid[i][j]='0';
+	//visited[i][j] = true;
+	dfs(i+1, j, grid);
+	dfs(i-1, j, grid);
+	dfs(i, j+1, grid);
+	dfs(i, j-1, grid);
 	//visited[i][j] = null;
 }
 }
