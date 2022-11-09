@@ -7,18 +7,15 @@ class StockSpanner {
     
     public int next(int price) {
         index ++;
-    	//stack.add(new Pair(price, index++));
     	while(!stack.isEmpty() && stack.peek().price<=price)
     	{
     		stack.pop();
     	}
-       // System.out.println("stack -->>"+stack);
     	int result = 0;
     	if(stack.isEmpty())
     		result =  index;
         else
     	    result = index-stack.peek().index;
-        //System.out.println("result -->>"+result);
     	stack.add(new Pair(index, price));
     	return result;
     	
