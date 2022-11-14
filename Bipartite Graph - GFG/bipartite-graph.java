@@ -39,49 +39,39 @@ class Solution
 {
     public boolean isBipartite(int V, ArrayList<ArrayList<Integer>>adj)
     {
-		int[] colour = new int[V];
-		Arrays.fill(colour, -1);
-		Queue<Integer> quee = new LinkedList<Integer>();
-		for(int i =0;i<V;i++) {
-			if(colour[i] ==-1)
+		int[] colur = new int[V];
+		Arrays.fill(colur, -1);
+		for(int i = 0;i<V;i++)
+		{
+			if(colur[i]==-1)
 			{
-				quee.add(i);
-				colour[i]=0;
-				while(!quee.isEmpty())
-				{
-					int node=quee.poll();
-					for(int a:adj.get(node))
-					{
-					   // System.out.println("a -->>"+a);
-					   // System.out.println("node -->>"+node);
-					   // System.out.println("colour[a] -->>"+colour[a]);
-					   // System.out.println("colour[node] -->>"+colour[node]);
-						if(colour[a] == colour[node])
-							return false;
-						if(colour[a] == -1)
-						{
-						    colour[a] = 1-colour[node];
-						    quee.add(a);
-						}
-						
-				// 		if(colour[a] != -1)
-				// 		{
-				// 			if(==0)
-				// 			{
-								
-				// 			}
-				// 			else {
-				// 				colour[a] = 0;
-				// 				quee.add(a);
-				// 			}
-				// 		}
-					}
-				}
+				colur[i]=0;
+				if(!dfs(i, colur, adj))
+					return false;
 			}
 		}
-		
-		
-		
-        return true;
+		return true;
+        // Code here
     }
+	public boolean dfs(int index,int[] colur,ArrayList<ArrayList<Integer>>adj)
+	{
+		for(int a:adj.get(index))
+		{
+			if(colur[a]==colur[index])
+				return false;
+			if(colur[a] == -1)
+			{
+				colur[a] = 1-colur[index];
+				if(!dfs(a, colur, adj))
+					return false;
+			}
+			
+			
+			
+		}
+		return true;
+	}
 }
+
+
+
