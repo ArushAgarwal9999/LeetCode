@@ -1,28 +1,41 @@
 class Solution {
+    class Pair{
+		int rowIndex;
+		int columnIndex;
+		int maxValue;
+		public Pair(int rowIndex, int columnIndex, int maxValue) {
+			super();
+			this.rowIndex = rowIndex;
+			this.columnIndex = columnIndex;
+			this.maxValue = maxValue;
+		}
+	}
    public int swimInWater(int[][] grid) {
-	return getMin(0, 0,0, grid,new Integer[grid.length][grid[0].length][2501], new Boolean[grid.length][grid[0].length]);
-}
-
-public int  getMin(int index1, int index2,int maxValue, int[][] grid, Integer[][][] dp, Boolean[][] visited)
-{
-	if(index1<0||index1>=grid.length|| index2<0|| index2>=grid[0].length|| visited[index1][index2] != null)
+	Boolean[][] visited = new Boolean[grid.length][grid[0].length];
+	Queue<Pair> quee = new PriorityQueue<Pair>((a,b)->a.maxValue-b.maxValue);
+	quee.add(new Pair(0, 0, grid[0][0]));
+	visited[0][0] = true;
+	while(!quee.isEmpty())
 	{
-		return Integer.MAX_VALUE;
+		Pair p = quee.poll();
+		if(p.rowIndex==grid.length-1 && p.columnIndex==grid[0].length-1)
+			return p.maxValue;
+		
+		int[] row = {-1,1,0,0};
+		int[] column = {0,0,-1,1};
+		for(int i = 0;i<row.length;i++)
+		{
+			int newRow = p.rowIndex+row[i];
+			int newColumn = p.columnIndex+column[i];
+			if(newRow>=0&& newRow<grid.length && newColumn>=0&& newColumn<grid[0].length&& visited[newRow][newColumn]== null)
+			{
+                visited[newRow][newColumn] = true;
+				quee.add(new Pair(newRow, newColumn, Math.max(p.maxValue, grid[newRow][newColumn])));
+			}
+		}
 	}
-	if(index1==grid.length-1 && index2==grid[0].length-1)
-	{
-		return Math.max(maxValue, grid[index1][index2]);
-	}
-	if(dp[index1][index2][maxValue] != null)
-		return dp[index1][index2][maxValue];
-	visited[index1][index2] = true;
-	maxValue =Math.max(maxValue, grid[index1][index2]);
-	int result = Integer.MAX_VALUE;
-	result = Math.min(result, getMin(index1-1, index2, maxValue,grid,dp, visited));
-	result = Math.min(result, getMin(index1+1, index2,maxValue, grid, dp,visited));
-	result = Math.min(result, getMin(index1, index2-1, maxValue,grid,dp ,visited));
-	result = Math.min(result, getMin(index1, index2+1, maxValue,grid, dp,visited));
-	visited[index1][index2]=null;
-	return dp[index1][index2][maxValue]= result;
+	
+	
+	return 0;
 }
 }
