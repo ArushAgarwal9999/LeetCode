@@ -64,35 +64,46 @@ class Solution
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
     {
        int[] result = new int[V];
-       boolean[] visited = new boolean[V];
-       Stack<Integer> order = new Stack<Integer>();
-       
-       for(int i = 0;i<V;i++)
+       int[] indegree = new int[V];
+      
+       Queue<Integer> quee = new LinkedList<Integer>();
+       Stack<Integer> res = new Stack<Integer>();
+       for(ArrayList<Integer> arr:adj)
        {
-    	   if(!visited[i])
+    	   for(int a:arr)
     	   {
-    		   visited[i] = true;
-    		   dfs(i, visited, order, adj);
-    		   
+    		   indegree[a]++;
+    	   }
+    	   
+       }
+       for(int i = 0;i<indegree.length;i++)
+       {
+    	   if(indegree[i]==0)
+    	   {
+    		   quee.add(i);
     	   }
        }
-       int index = 0;
-       while(!order.isEmpty())
+       while(!quee.isEmpty())
        {
-    	   result[index++]=order.pop();
+    	   int a = quee.poll();
+    	   res.add(a);
+    	   for(int num:adj.get(a))
+    	   {
+    		   indegree[num]--;
+    		   if(indegree[num]==0)
+    		   {
+    			   quee.add(num);
+    		   }
+    	   }
+    	  
        }
+       int index = V-1;
+       while(!res.isEmpty())
+       {
+    	   result[index--] =res.pop();
+       }
+       
+       
        return result;
     }
-	public static void dfs(int node, boolean[] visited, Stack<Integer> order,ArrayList<ArrayList<Integer>> adj)
-	{
-		for(int a:adj.get(node))
-		{
-			if(!visited[a])
-			{
-				visited[a] = true;
-				dfs(a, visited, order, adj);
-			}
-		}
-		order.add(node);
-	}
 }
