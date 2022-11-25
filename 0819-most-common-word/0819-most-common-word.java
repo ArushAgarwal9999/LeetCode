@@ -8,8 +8,8 @@ class Solution {
         HashMap<String,Integer> map = new HashMap<>();
         String result = "";
         int mostFrequancy=0;
-        System.out.println("paragraph -->>"+paragraph);
-        System.out.println("words -->>"+Arrays.toString(words));
+       // System.out.println("paragraph -->>"+paragraph);
+        //System.out.println("words -->>"+Arrays.toString(words));
         for(String word:words)
         {
              word = word.toLowerCase().trim();
@@ -17,7 +17,7 @@ class Solution {
             if(bannedSet.contains(word) || word.trim().isEmpty())
                 continue;
            
-            System.out.println("word -->>"+word);
+           // System.out.println("word -->>"+word);
             
             map.put(word,map.getOrDefault(word,0)+1);
             if(mostFrequancy<map.get(word))
