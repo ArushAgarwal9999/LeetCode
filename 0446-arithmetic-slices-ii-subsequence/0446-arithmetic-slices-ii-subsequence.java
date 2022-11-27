@@ -13,12 +13,13 @@ class Solution {
         	for(int j = 0;j<i;j++)
         	{
         		long diff = (long)nums[i]- (long)nums[j];
+                int diff1 = nums[i]- nums[j];
         		if(diff<=Integer.MIN_VALUE || diff>=Integer.MAX_VALUE)
         			continue;
-        		int prev = map[j].getOrDefault((int)diff, 0);
+        		int prev = map[j].getOrDefault(diff1, 0);
                 //System.out.println("prev -->>"+prev);
         		result+=prev++;
-        		map[i].put((int)diff, map[i].getOrDefault((int)diff, 0)+prev);
+        		map[i].put(diff1, map[i].getOrDefault(diff1, 0)+prev);
                 //System.out.println("map[i] -->>"+map[i]);
         	}
             //System.out.println("---------->>");
