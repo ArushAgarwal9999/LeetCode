@@ -1,24 +1,27 @@
 class Solution {
-    public boolean closeStrings(String word1, String word2) {
+   public boolean closeStrings(String word1, String word2) {
 		if(word1.length()!= word2.length())
 			return false;
-	    HashMap<Character, Integer> map = new HashMap<Character, Integer>();
-	    HashMap<Character, Integer> map2 = new HashMap<Character, Integer>();
-	    for(int i = 0;i<word1.length();i++)
-	    {
-	    	map.put(word1.charAt(i), map.getOrDefault(word1.charAt(i), 0)+1);
-	    	map2.put(word2.charAt(i), map2.getOrDefault(word2.charAt(i), 0)+1);
-	    }
-	   ArrayList<Integer> list = new ArrayList<Integer>(map.values());
-	   ArrayList<Integer> list1 = new ArrayList<Integer>(map2.values());
-	   Collections.sort(list);
-	   Collections.sort(list1);
-	    if(map.keySet().equals(map2.keySet()) && list.equals(list1))
-	    	return true;
-	    
-		
-		
-		return false;
+	   int[]count1 = new int[26];
+	   int[]count2 = new int[26];
+	   boolean[] check = new boolean[26];
+	   for(int i = 0;i<word1.length();i++)
+	   {
+		   if(!check[word1.charAt(i)-'a'])
+			   check[word1.charAt(i)-'a']=true;
+		   count1[word1.charAt(i)-'a']++; 
+	   }
+	   for(int i = 0;i<word2.length();i++)
+	   {
+		   if(!check[word2.charAt(i)-'a'])
+			   return false;
+		   count2[word2.charAt(i)-'a']++; 
+	   }
+	   Arrays.sort(count1);
+	   Arrays.sort(count2);
+	   if(Arrays.equals(count1, count2))
+		   return true;
+	   
+	   return false;
 	}
-
 }
