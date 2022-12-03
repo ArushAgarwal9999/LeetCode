@@ -52,7 +52,7 @@ class Solution {
 				 String email = accounts.get(i).get(j);
 				 if(map.containsKey(email))
 				 {
-					 set.union(i,map.get(email));
+					 set.union(map.get(email),i);
 				 }
 				 else {
 					 map.put(email, i);
