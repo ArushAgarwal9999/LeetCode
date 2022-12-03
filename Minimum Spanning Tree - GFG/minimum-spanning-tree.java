@@ -51,45 +51,92 @@ class DriverClass
 class Solution
 {
     //Function to find sum of weights of edges of the Minimum Spanning Tree.
-    static class Pair{
-		int node;
-		int weight;
-		int parent;
-		public Pair(int node, int weight, int parent) {
-			super();
-			this.node = node;
-			this.weight = weight;
-			this.parent = parent;
+    static class DisjointSet{
+		ArrayList<Integer> rank = new ArrayList<Integer>();
+		ArrayList<Integer> paraent = new ArrayList<Integer>();
+		public DisjointSet(int v)
+		{
+			for(int i = 0;i<v;i++)
+			{
+				rank.add(0);
+				paraent.add(i);
+			}
+//			System.out.println("rank -->>>"+rank);
+//			System.out.println("paraent -->>>"+paraent);
+			
+		}
+		
+		public int getParent(int node)
+		{
+			if(node==paraent.get(node))
+				return node;
+			int num = getParent(paraent.get(node));
+			paraent.set(node, num);
+			return paraent.get(node);
+		}
+		public void union(int u, int v)
+		{
+//			System.out.println("u -->>"+u);
+//			System.out.println("v --->>"+v);
+//		    	System.out.println("rank -->>>"+rank);
+//			System.out.println("paraent -->>>"+paraent);
+			int parentU = getParent(u);
+			int parentV = getParent(v);
+			if(parentU==parentV)
+				return;
+			
+			if(rank.get(parentU)>rank.get(parentV))
+			{
+				paraent.set(parentV, parentU);
+			}
+			else if(rank.get(parentU)==rank.get(parentV))
+			{
+				paraent.set(parentV, parentU);
+				rank.set(parentU,rank.get(parentU)+1);
+			}
+			else {
+				paraent.set(parentU, parentV);
+			}
+		//	System.out.println("after rank -->>>"+rank);
+		//	System.out.println(" after paraent -->>>"+paraent);
 		}
 	}
+	static class Node{
+		int souce;
+		int destination;
+		int weight;
+		public Node(int souce, int destination, int weight) {
+			super();
+			this.souce = souce;
+			this.destination = destination;
+			this.weight = weight;
+		}
+		
+	}
+	
+	
 	static int spanningTree(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj) 
-    {
-		int result = 0;
-        PriorityQueue<Pair> quee = new PriorityQueue<Pair>((a,b)->a.weight-b.weight);
-        quee.add(new Pair(0,0,-1));
-        boolean[] visited = new boolean[V];
-        while(!quee.isEmpty())
-        {
-        	
-        	Pair p = quee.poll();
-        	if(!visited[p.node])
-        	{
-        		visited[p.node] = true;
-        		if(p.parent != -1)
-        		{
-        			result+=p.weight;
-        		}
-        		for(ArrayList<Integer> tmp:adj.get(p.node))
-        		{
-        			if(!visited[tmp.get(0)])
-        			{
-        				quee.add(new Pair(tmp.get(0), tmp.get(1), p.node));
-        			}
-        		}
-        	}
-        }
-        
-        
-        return result;
-    }
+  {
+      int result = 0;
+      PriorityQueue<Node> quee = new PriorityQueue<Node>((a,b)->a.weight-b.weight);
+      for(int i = 0;i<adj.size();i++)
+      {
+      	for(ArrayList<Integer> arr:adj.get(i))
+      	{
+      		//System.out.println("arr -->>>"+arr);
+      		quee.add(new Node(i,arr.get(0),arr.get(1)));
+      	}
+      }
+      DisjointSet set = new DisjointSet(V);
+      while(!quee.isEmpty())
+      {
+      	Node node = quee.poll();
+      	if(set.getParent(node.souce) == set.getParent(node.destination))
+      		continue;
+      	result+=node.weight;
+      	set.union(node.souce, node.destination);
+      }
+      return result;
+  }
+
 }
